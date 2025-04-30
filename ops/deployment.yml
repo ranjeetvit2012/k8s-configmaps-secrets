@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecom-backend-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ecom-backend
+  template:
+    metadata:
+      labels:
+        app: ecom-backend
+    spec:
+      containers:
+      - name: todo-backend
+        image: docker-hub-username/images-name:tag
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - name: env-file
+          readOnly: true
+          mountPath: "/app/secret"
+      volumes:
+      - name: env-file
+        secret:
+          secretName: backend-secret
